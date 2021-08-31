@@ -1,0 +1,41 @@
+<div class="card">
+    <div class="card-header">
+        Template Driven
+    </div>
+    <div class="card-body">
+        <form novalidate (ngSubmit)="save(signupForm)" #signupForm="ngForm">
+            <div class="form-group row mb-2">
+                <label class="col-md-2 col-form-label" for="firstNameId"></label>
+                <div class="col-md-8">
+                    <input class="form-control" id="firstNameId" type="text" placeholder="First Name" minlength="3"
+                        required [(ngModel)]=customer.firstName name="firstName" #firstNameVar="ngModel"
+                        [ngClass]="{'is-invalid': (firstNameVar.touched || firstNameVar.dirty) && !firstNameVar.valid}" />
+                    <span class="invalid-feedback">
+                        <span *ngIf="firstNameVar.errors?.required">
+                            Please enter your first name.
+                        </span>
+                        <span *ngIf="firstNameVar.errors?.minlength">
+                            First name must be longer than 3 chars.
+                        </span>
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group row mb-2">
+                <div class="offset-md-2 col-md-4">
+                    <button class="btn btn-primary mr-3" type="submit" style="width: 80px;"
+                        [disabled]="!signupForm.valid"
+                        [title]="signupForm.valid ? 'Save your entered data' : 'Disabled until form data is valid'">
+                        Save
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<br>Dirty : {{ signupForm.dirty }}
+<br>Pristine : {{ signupForm.pristine }}
+<br>Touched : {{ signupForm.touched }}
+<br>Valid : {{ signupForm.valid }}
+<br>Value : {{ signupForm.value | json }}
