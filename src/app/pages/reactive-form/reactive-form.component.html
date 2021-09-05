@@ -22,8 +22,8 @@
                                 Please confirm your mail
                             </span>
                         </span>
-                    </div>
 
+                    </div>
                 </div>
                 <div class="form-group row mb-2">
                     <label class="col-md-2 col-form-label" for="confirmEmail">Confirm Email</label>
@@ -34,6 +34,10 @@
                             <span *ngIf="customerForm.get('emailGroup').errors?.match">
                                 Please confirm your mail
                             </span>
+                        </span>
+
+                        <span class="invalid-feedback d-block">
+                            {{ confirmMailMessage }}
                         </span>
                     </div>
                 </div>

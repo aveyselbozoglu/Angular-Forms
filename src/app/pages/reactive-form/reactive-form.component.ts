@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Customer } from 'src/app/models/customer.model';
+import { debounceTime } from 'rxjs/operators';
 
 // custom validator function
 function rangeValidator2(c: AbstractControl): { [key: string]: boolean } | null {
@@ -36,7 +37,7 @@ function emailMatcher(c: AbstractControl): { [key: string]: boolean } | null {
 
   const emailCtrl = c.get('eemail');
   const confirmEmailCtrl = c.get('confirmEmail');
- 
+
   if (emailCtrl.pristine || confirmEmailCtrl.pristine)
     return null
 
@@ -57,6 +58,13 @@ export class ReactiveFormComponent implements OnInit {
   customerForm: FormGroup;
   constructor(private readonly fb: FormBuilder) { }
 
+  confirmMailMessage: string;
+
+  confirmMailMessages = {
+    email: 'Please enter mail format',
+    required: 'Please enter your mail'
+  }
+
   ngOnInit(): void {
     // this.customerForm = new FormGroup({
     //   firstName: new FormControl(),
@@ -66,10 +74,34 @@ export class ReactiveFormComponent implements OnInit {
       notification: 'phone',
       emailGroup: this.fb.group({
         eemail: ['', Validators.email],
-        confirmEmail: ['', Validators.email]
+        confirmEmail: ['', [Validators.email, Validators.required]]
       }, { validator: emailMatcher }),
       rating: [null, rangeValidator(1, 5)]
     })
+
+
+    const confirmMailControl = this.customerForm.get('emailGroup.confirmEmail');
+
+    confirmMailControl.valueChanges.pipe(
+      debounceTime(1000)
+    ).subscribe(val => {
+      this.setConfirmMailMessage(confirmMailControl);
+    })
+  }
+
+
+  public setConfirmMailMessage(c: AbstractControl): void {
+
+    this.confirmMailMessage = '';
+
+    if ((c.touched || c.dirty) && c.errors) {
+      this.confirmMailMessage = Object.keys(c.errors).map(
+        key => this.confirmMailMessages[key]).join('')
+    }
+
+    console.log(this.confirmMailMessage);
+
+
   }
 
   save() {
@@ -99,3 +131,5 @@ export class ReactiveFormComponent implements OnInit {
 
   }
 }
+
+
