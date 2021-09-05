@@ -76,7 +76,17 @@ export class ReactiveFormComponent implements OnInit {
         eemail: ['', Validators.email],
         confirmEmail: ['', [Validators.email, Validators.required]]
       }, { validator: emailMatcher }),
-      rating: [null, rangeValidator(1, 5)]
+      rating: [null, rangeValidator(1, 5)],
+      sendCatalog: true,
+      addresses: this.fb.group({
+        addressType: 'home',
+        street1: '',
+        street2: '',
+        city: '',
+        state: '',
+        zip: '',
+      })
+
     })
 
 
