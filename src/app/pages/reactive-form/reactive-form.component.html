@@ -88,78 +88,81 @@
             </div>
 
             <div *ngIf="customerForm.get('sendCatalog').value">
-                <!-- <div formArrayName="addresses"> -->
-                <div formGroupName="addresses">
+                <div formArrayName="addresses" *ngFor="let item of addresses.controls; let i=index">
+                    <div [formGroupName]="i">
 
-                    <div class="form-group row mb-2">
-                        <label class="col-md-2 col-form-label pt-0">Address Type</label>
-                        <div class="col-md-8">
-                            <div class="form-check form-check-inline">
-                                <label class="form-check-label">
-                                    <input class="form-check-input" id="addressType1Id" type="radio" value="home"
-                                        formControlName="addressType"> Home
-                                </label>
+                        <div class="form-group row mb-2">
+                            <label class="col-md-2 col-form-label pt-0">Address Type</label>
+                            <div class="col-md-8">
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" id="addressType1Id" type="radio" value="home"
+                                            formControlName="addressType"> Home
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" id="addressType1Id" type="radio" value="work"
+                                            formControlName="addressType"> Work
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" id="addressType1Id" type="radio" value="other"
+                                            formControlName="addressType"> Other
+                                    </label>
+                                </div>
                             </div>
-                            <div class="form-check form-check-inline">
-                                <label class="form-check-label">
-                                    <input class="form-check-input" id="addressType1Id" type="radio" value="work"
-                                        formControlName="addressType"> Work
-                                </label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <label class="form-check-label">
-                                    <input class="form-check-input" id="addressType1Id" type="radio" value="other"
-                                        formControlName="addressType"> Other
-                                </label>
+                        </div>
+
+                        <div class="form-group row mb-2">
+                            <label class="col-md-2 col-form-label" attr.for="street1 + {{ i }}">Street Address
+                                1</label>
+                            <div class="col-md-8">
+                                <input class="form-control" type="text" placeholder="Street address"
+                                    formControlName="street1" id="street1 + {{ i }}">
                             </div>
                         </div>
-                    </div>
 
-                    <div class="form-group row mb-2">
-                        <label class="col-md-2 col-form-label">Street Address
-                            1</label>
-                        <div class="col-md-8">
-                            <input class="form-control" type="text" placeholder="Street address"
-                                formControlName="street1">
+                        <div class="form-group row mb-2">
+                            <label class="col-md-2 col-form-label" attr.for="street2 + {{ i }}">Street Address 2</label>
+                            <div class="col-md-8">
+                                <input class="form-control" id="street2 + {{ i }}" type="text"
+                                    placeholder="Street address (second line)" formControlName="street2">
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="form-group row mb-2">
-                        <label class="col-md-2 col-form-label" for="street2Id">Street Address 2</label>
-                        <div class="col-md-8">
-                            <input class="form-control" id="street2Id" type="text"
-                                placeholder="Street address (second line)" formControlName="street2">
+                        <div class="form-group row mb-2">
+                            <label class="col-md-2 col-form-label" attr.for="cityId + {{ i }}">City, State, Zip
+                                Code</label>
+                            <div class="col-md-3">
+                                <input class="form-control" id="cityId + {{ i }}" type="text" placeholder="City"
+                                    formControlName="city">
+                            </div>
+                            <div class="col-md-3">
+                                <select class="form-control" id="stateId + {{ i }}" formControlName="state">
+                                    <option value="" disabled selected hidden>Select a State...</option>
+                                    <option value="AL">Alabama</option>
+                                    <option value="AK">Alaska</option>
+                                    <option value="AZ">Arizona</option>
+                                    <option value="AR">Arkansas</option>
+                                    <option value="CA">California</option>
+                                    <option value="CO">Colorado</option>
+                                    <option value="WI">Wisconsin</option>
+                                    <option value="WY">Wyoming</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <input class="form-control" id="zipId + {{ i }}" type="number" placeholder="Zip Code"
+                                    formControlName="zip">
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="form-group row mb-2">
-                        <label class="col-md-2 col-form-label" for="cityId">City, State, Zip Code</label>
-                        <div class="col-md-3">
-                            <input class="form-control" id="cityId" type="text" placeholder="City"
-                                formControlName="city">
-                        </div>
-                        <div class="col-md-3">
-                            <select class="form-control" id="stateId" formControlName="state">
-                                <option value="" disabled selected hidden>Select a State...</option>
-                                <option value="AL">Alabama</option>
-                                <option value="AK">Alaska</option>
-                                <option value="AZ">Arizona</option>
-                                <option value="AR">Arkansas</option>
-                                <option value="CA">California</option>
-                                <option value="CO">Colorado</option>
-                                <option value="WI">Wisconsin</option>
-                                <option value="WY">Wyoming</option>
-                            </select>
-                        </div>
-                        <div class="col-md-2">
-                            <input class="form-control" id="zipId" type="number" placeholder="Zip Code"
-                                formControlName="zip">
-                        </div>
-                    </div>
 
+                    </div>
 
                 </div>
-                <!-- 
+
                 <div class="form-group row mb-2">
                     <div class="col-md-4">
                         <button class="btn btn-outline-primary" type="button"
@@ -168,14 +171,14 @@
                             Add Another Address
                         </button>
                     </div>
-                </div> -->
+                </div>
             </div>
 
 
             <div class="form-group row mb-2">
                 <div class="offset-md-2 col-md-4">
-                    <button class="btn btn-primary mr-3" type="submit" style="width: 80px;"
-                        [disabled]="!customerForm.valid">
+                    <button class="btn btn-md btn-primary mr-3" type="submit" [disabled]="!customerForm.valid"
+                        style="margin-right: 1em;">
                         Save
                     </button>
                     <button class="btn btn-primary ml-3" (click)="populateData()" [disabled]="!customerForm.valid">

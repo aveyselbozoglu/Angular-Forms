@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Customer } from 'src/app/models/customer.model';
 import { debounceTime } from 'rxjs/operators';
 
@@ -78,17 +78,9 @@ export class ReactiveFormComponent implements OnInit {
       }, { validator: emailMatcher }),
       rating: [null, rangeValidator(1, 5)],
       sendCatalog: true,
-      addresses: this.fb.group({
-        addressType: 'home',
-        street1: '',
-        street2: '',
-        city: '',
-        state: '',
-        zip: '',
-      })
+      addresses: this.fb.array([this.buildAdresses()])
 
     })
-
 
     const confirmMailControl = this.customerForm.get('emailGroup.confirmEmail');
 
@@ -97,6 +89,22 @@ export class ReactiveFormComponent implements OnInit {
     ).subscribe(val => {
       this.setConfirmMailMessage(confirmMailControl);
     })
+
+    const sendCatalogControl = this.customerForm.get('sendCatalog')
+
+    sendCatalogControl.valueChanges.subscribe(val => {
+      if (val === false)
+        this.clearAdresses();
+      if (val === true)
+        this.addAddress();
+    })
+
+  }
+
+
+
+  get addresses(): FormArray {
+    return <FormArray>this.customerForm.get('addresses');
   }
 
 
@@ -140,6 +148,28 @@ export class ReactiveFormComponent implements OnInit {
     cc.updateValueAndValidity();
 
   }
+
+
+  buildAdresses(): FormGroup {
+
+    return this.fb.group({
+      addressType: 'home',
+      street1: '',
+      street2: '',
+      city: '',
+      state: '',
+      zip: '',
+    })
+  }
+
+  addAddress(): void {
+    this.addresses.push(this.buildAdresses());
+  }
+
+  clearAdresses(): void {
+    this.addresses.clear();
+  }
+
 }
 
 
