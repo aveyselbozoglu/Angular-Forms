@@ -1,5 +1,5 @@
 export class Customer {
 
-  constructor(public firstName = '') { }
+  constructor(public firstName = '',public tags = []) { }
 
 }

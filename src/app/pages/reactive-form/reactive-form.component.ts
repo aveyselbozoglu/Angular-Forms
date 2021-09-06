@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Customer } from 'src/app/models/customer.model';
 import { debounceTime } from 'rxjs/operators';
+import { RakunTest } from 'src/app/models/rakun-test';
+import { FORMERR } from 'dns';
 
 // custom validator function
 function rangeValidator2(c: AbstractControl): { [key: string]: boolean } | null {
@@ -56,6 +58,7 @@ export class ReactiveFormComponent implements OnInit {
 
   customer: Customer = new Customer();
   customerForm: FormGroup;
+  bestForm: FormGroup;
   constructor(private readonly fb: FormBuilder) { }
 
   confirmMailMessage: string;
@@ -64,6 +67,31 @@ export class ReactiveFormComponent implements OnInit {
     email: 'Please enter mail format',
     required: 'Please enter your mail'
   }
+
+  demoForm: FormGroup;
+
+  arrayItems: RakunTest<string>[] = [
+    {
+      key: 'U-V',
+      label: 'U-V',
+      order: 1,
+      required: true,
+      controlType: "formControl",
+      type: "text",
+      value: ''
+
+    },
+    {
+      key: 'U-W',
+      label: 'U-W',
+      order: 2,
+      required: false,
+      controlType: "formControl",
+      type: "text",
+      value: ''
+    }]
+
+
 
   ngOnInit(): void {
     // this.customerForm = new FormGroup({
@@ -80,6 +108,10 @@ export class ReactiveFormComponent implements OnInit {
       sendCatalog: true,
       addresses: this.fb.array([this.buildAdresses()])
 
+    })
+
+    this.demoForm = this.fb.group({
+      items: this.fb.array([this.createItem()])
     })
 
     const confirmMailControl = this.customerForm.get('emailGroup.confirmEmail');
@@ -105,6 +137,49 @@ export class ReactiveFormComponent implements OnInit {
 
   get addresses(): FormArray {
     return <FormArray>this.customerForm.get('addresses');
+  }
+
+  get formx(): FormArray {
+    return <FormArray>this.demoForm.get('items');
+  }
+
+  createItem(): FormGroup {
+
+    const group: any = {}
+
+    this.arrayItems.forEach(arrayItem => {
+
+      group[arrayItem.key] = new FormControl(arrayItem.value || '')
+
+    });
+
+    var p = group as FormGroup
+    console.log(p);
+
+
+
+    return new FormGroup(group);
+
+  }
+
+  createOneItem(): FormGroup {
+
+    const group: any = {}
+    const oneItem: RakunTest<string> =
+    {
+      key: 'U-X',
+      label: 'U-X',
+      order: 2,
+      required: false,
+      controlType: "formControl",
+      type: "text",
+      value: ''
+    }
+
+    group[oneItem.key] = new FormControl(oneItem.value || '')
+
+    return new FormGroup(group)
+
   }
 
 
@@ -164,6 +239,12 @@ export class ReactiveFormComponent implements OnInit {
 
   addAddress(): void {
     this.addresses.push(this.buildAdresses());
+
+    this.addFormx();
+  }
+
+  addFormx(): void {
+    this.formx.push(this.createOneItem());
   }
 
   clearAdresses(): void {
