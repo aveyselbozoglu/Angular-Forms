@@ -220,7 +220,9 @@ export class ReactiveFormComponent implements OnInit {
 
     this.bestForm.addControl(formValue.key, new FormControl(formValue.value))
 
-    this.arrayItems.push(this.arrayItem)
+    if (!this.arrayItems.includes(this.arrayItem))
+      this.arrayItems.push(this.arrayItem)
+
     console.log(this.bestForm);
 
   }
