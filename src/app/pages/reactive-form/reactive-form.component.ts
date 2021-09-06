@@ -1,8 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core'; import { CommonModule } from '@angular/common';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Customer } from 'src/app/models/customer.model';
 import { debounceTime } from 'rxjs/operators';
+<<<<<<< Updated upstream
+=======
+import { RakunTest } from 'src/app/models/rakun-test';
+import { element } from 'protractor';
+>>>>>>> Stashed changes
 
 // custom validator function
 function rangeValidator2(c: AbstractControl): { [key: string]: boolean } | null {
@@ -55,8 +59,10 @@ function emailMatcher(c: AbstractControl): { [key: string]: boolean } | null {
 export class ReactiveFormComponent implements OnInit {
 
   customer: Customer = new Customer();
+  formArray
   customerForm: FormGroup;
   constructor(private readonly fb: FormBuilder) { }
+
 
   confirmMailMessage: string;
 
@@ -65,6 +71,43 @@ export class ReactiveFormComponent implements OnInit {
     required: 'Please enter your mail'
   }
 
+<<<<<<< Updated upstream
+=======
+  demoForm: FormGroup;
+
+  arrayItems: RakunTest<string>[] = [
+    {
+      key: 'U-V',
+      label: 'U-V',
+      order: 1,
+      required: true,
+      controlType: "formControl",
+      type: "text",
+      value: ''
+
+    },
+    {
+      key: 'U-W',
+      label: 'U-W',
+      order: 2,
+      required: false,
+      controlType: "formControl",
+      type: "text",
+      value: ''
+    }]
+
+  arrayItem: RakunTest<string> =
+    {
+      key: 'U-X',
+      label: 'U-X',
+      order: 3,
+      required: true,
+      controlType: "formControl",
+      type: "text",
+      value: ''
+    }
+
+>>>>>>> Stashed changes
   ngOnInit(): void {
     // this.customerForm = new FormGroup({
     //   firstName: new FormControl(),
@@ -82,6 +125,15 @@ export class ReactiveFormComponent implements OnInit {
 
     })
 
+<<<<<<< Updated upstream
+=======
+    this.demoForm = this.fb.group({
+      items: this.fb.array([this.createItem()])
+    })
+
+    this.bestForm = this.fb.group([])
+    this.createBestForm();
+>>>>>>> Stashed changes
     const confirmMailControl = this.customerForm.get('emailGroup.confirmEmail');
 
     confirmMailControl.valueChanges.pipe(
@@ -99,10 +151,21 @@ export class ReactiveFormComponent implements OnInit {
         this.addAddress();
     })
 
+
+
   }
 
 
+  createBestForm() {
 
+    //this.bestForm.addControl('testt', new FormControl('tk'))
+
+    this.arrayItems.forEach(element => {
+      this.bestForm.addControl(element.key, new FormControl(element.value))
+
+    });
+
+  }
   get addresses(): FormArray {
     return <FormArray>this.customerForm.get('addresses');
   }
@@ -164,6 +227,25 @@ export class ReactiveFormComponent implements OnInit {
 
   addAddress(): void {
     this.addresses.push(this.buildAdresses());
+<<<<<<< Updated upstream
+=======
+
+    this.addFormx();
+
+    this.addBestFormControl(this.arrayItem);
+  }
+
+  addFormx(): void {
+    this.formx.push(this.createOneItem());
+>>>>>>> Stashed changes
+  }
+
+  addBestFormControl(formValue: RakunTest<string>) {
+
+    this.bestForm.addControl(formValue.key, new FormControl(formValue.value))
+
+    console.log(this.bestForm);
+
   }
 
   clearAdresses(): void {

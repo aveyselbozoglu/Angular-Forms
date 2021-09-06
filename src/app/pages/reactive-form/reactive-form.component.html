@@ -191,6 +191,16 @@
             </div>
 
         </form>
+
+        <form novalidate (ngSubmit)="save()" [formGroup]="bestForm">
+            <div class="form-group row mb-2" *ngFor="let item of arrayItems; let i=index">
+                <label class="col-md-2 col-form-label" for="{{item.label}} + {{item.order}}">{{item.label}}</label>
+                <div class="col-md-8">
+                    <input [formControlName]="item.key" class="form-control" id="{{item.label}} + {{item.order}}"
+                        type="{{item.type}}" placeholder="{{item.label}}" />
+                </div>
+            </div>
+        </form>
     </div>
 </div>
 
@@ -202,4 +212,12 @@
 
 
 <br>Email : {{ customerForm.get('emailGroup.eemail').pristine |json }}
+<<<<<<< Updated upstream
 <br>ConfirmEmail : {{ customerForm.get('emailGroup.confirmEmail').pristine | json}}
+=======
+<br>ConfirmEmail : {{ customerForm.get('emailGroup.confirmEmail').pristine | json}}
+
+
+<br>Value : {{ demoForm.value |json }}
+<br>Value : {{ bestForm.value |json }}
+>>>>>>> Stashed changes
