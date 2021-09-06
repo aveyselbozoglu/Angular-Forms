@@ -2,11 +2,7 @@ import { Component, OnInit } from '@angular/core'; import { CommonModule } from 
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Customer } from 'src/app/models/customer.model';
 import { debounceTime } from 'rxjs/operators';
-<<<<<<< Updated upstream
-=======
 import { RakunTest } from 'src/app/models/rakun-test';
-import { element } from 'protractor';
->>>>>>> Stashed changes
 
 // custom validator function
 function rangeValidator2(c: AbstractControl): { [key: string]: boolean } | null {
@@ -61,19 +57,8 @@ export class ReactiveFormComponent implements OnInit {
   customer: Customer = new Customer();
   formArray
   customerForm: FormGroup;
+  bestForm: FormGroup;
   constructor(private readonly fb: FormBuilder) { }
-
-
-  confirmMailMessage: string;
-
-  confirmMailMessages = {
-    email: 'Please enter mail format',
-    required: 'Please enter your mail'
-  }
-
-<<<<<<< Updated upstream
-=======
-  demoForm: FormGroup;
 
   arrayItems: RakunTest<string>[] = [
     {
@@ -105,9 +90,17 @@ export class ReactiveFormComponent implements OnInit {
       controlType: "formControl",
       type: "text",
       value: ''
+
     }
 
->>>>>>> Stashed changes
+
+  confirmMailMessage: string;
+
+  confirmMailMessages = {
+    email: 'Please enter mail format',
+    required: 'Please enter your mail'
+  }
+
   ngOnInit(): void {
     // this.customerForm = new FormGroup({
     //   firstName: new FormControl(),
@@ -125,15 +118,6 @@ export class ReactiveFormComponent implements OnInit {
 
     })
 
-<<<<<<< Updated upstream
-=======
-    this.demoForm = this.fb.group({
-      items: this.fb.array([this.createItem()])
-    })
-
-    this.bestForm = this.fb.group([])
-    this.createBestForm();
->>>>>>> Stashed changes
     const confirmMailControl = this.customerForm.get('emailGroup.confirmEmail');
 
     confirmMailControl.valueChanges.pipe(
@@ -151,8 +135,9 @@ export class ReactiveFormComponent implements OnInit {
         this.addAddress();
     })
 
+    this.bestForm = this.fb.group([])
 
-
+    this.createBestForm()
   }
 
 
@@ -227,17 +212,8 @@ export class ReactiveFormComponent implements OnInit {
 
   addAddress(): void {
     this.addresses.push(this.buildAdresses());
-<<<<<<< Updated upstream
-=======
 
-    this.addFormx();
-
-    this.addBestFormControl(this.arrayItem);
-  }
-
-  addFormx(): void {
-    this.formx.push(this.createOneItem());
->>>>>>> Stashed changes
+    this.addBestFormControl(this.arrayItem)
   }
 
   addBestFormControl(formValue: RakunTest<string>) {
